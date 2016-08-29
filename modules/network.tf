@@ -19,8 +19,8 @@ variable "public_subnets" {
   default=[]
 }
 
-variable "private_persistance_subnets" {
-  description = "A list of CIDR blocks for private persistance subnets inside the VPC."
+variable "private_persistence_subnets" {
+  description = "A list of CIDR blocks for private persistence subnets inside the VPC."
   default=[]
 }
 
@@ -63,12 +63,12 @@ module "private_app_subnet" {
   nat_gateway_ids = "${module.nat.nat_gateway_ids}"
 }
 
-module "private_persistance_subnet" {
-  source = "./private-persistance-subnet"
+module "private_persistence_subnet" {
+  source = "./private-persistence-subnet"
 
-  name   = "${var.name}-private-persistance"
+  name   = "${var.name}-private-persistence"
   vpc_id = "${module.vpc.vpc_id}"
-  private_persistance_subnets  = "${var.private-persistance-subnet}"
+  private_persistence_subnets  = "${var.private-persistence-subnet}"
   azs    = "${var.azs}"
 }
 
@@ -107,7 +107,7 @@ output "vpc_cidr" { value = "${module.vpc.vpc_cidr}" }
 # Subnets
 output "public_subnet_ids"  { value = "${module.public_subnet.subnet_ids}" }
 output "private_app_subnet_ids" { value = "${module.private_app_subnet.subnet_ids}" }
-output "private_persistance_subnet_ids" { value = "${module.private_persistance_subnet.subnet_ids}" }
+output "private_persistence_subnet_ids" { value = "${module.private_persistence_subnet.subnet_ids}" }
 
 # NAT
 output "nat_gateway_ids" { value = "${module.nat.nat_gateway_ids}" }

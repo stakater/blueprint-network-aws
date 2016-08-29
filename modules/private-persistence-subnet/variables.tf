@@ -1,8 +1,8 @@
-variable "name" { default = "persistance" }
+variable "name" { default = "persistence" }
 variable "vpc_id" { }
 
-variable "private_persistance_subnets" {
-  description = "A list of CIDR blocks for private persistance subnets inside the VPC."
+variable "private_persistence_subnets" {
+  description = "A list of CIDR blocks for private persistence subnets inside the VPC."
   default=[]
 }
 
