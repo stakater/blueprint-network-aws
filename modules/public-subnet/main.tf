@@ -1,16 +1,3 @@
-variable "name" { default = "public" }
-variable "vpc_id" { }
-
-variable "public_subnets" {
-  description = "A list of CIDR blocks for public subnets inside the VPC."
-  default=[]
-}
-
-variable "azs" {
-  description = "A list of Availability zones in the region"
-  default=[]
-}
-
 resource "aws_internet_gateway" "public" {
     vpc_id = "${var.vpc_id}"
     tags { Name = "${var.name}-IG" }
@@ -48,8 +35,4 @@ resource "aws_route_table_association" "public" {
   count          = "${length(var.azs)}"
   subnet_id      = "${element(aws_subnet.public.*.id, count.index)}"
   route_table_id = "${aws_route_table.public.id}"
-}
-
-output "subnet_ids" {
-  value = "${join(",", aws_subnet.public.*.id)}"
 }
