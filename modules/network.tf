@@ -68,7 +68,7 @@ module "private_persistence_subnet" {
 
   name   = "${var.name}-private-persistence"
   vpc_id = "${module.vpc.vpc_id}"
-  private_persistence_subnets  = "${var.private_persistence_subnet}"
+  private_persistence_subnets  = "${var.private_persistence_subnets}"
   azs    = "${var.azs}"
 }
 
