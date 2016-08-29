@@ -1,3 +1,4 @@
+variable "name" { default = "nat" }
 variable "public_subnet_ids" { }
 
 variable "azs" {
