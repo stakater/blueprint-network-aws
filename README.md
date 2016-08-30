@@ -130,7 +130,58 @@ EC2 instance), a network ACL controls what inbound and outbound traffic is allow
 ### What's VPC Peering?
 
 
-### 
+### Networking
+
+![](./diagrams/networking.png)
+
+By default, the Stackater will create a VPC in a single region, amongst multiple availability zones (AZs). The default mask for this VPC is
+
+    10.30.0.0/16
+
+The address was chosen to be internal, and to not conflict with other pieces of infrastructure you might run. But, it can also be configured with its own CIDR range.
+
+Each availability zone will get its own external and internal subnets. Most of our infrastructure will live in the *internal* subnet so that they are not externally accessible to the internet.
+
+If you'd like to scale to multiple regions, simply add one to the second octet.
+
+    10.31.0.0/16 -- my new region
+
+To span across availability zones, the regional 16-bit mask becomes 18-bits.
+
+    10.30.0.0/18 - AZ A
+    10.30.64.0/18 - AZ B
+    10.30.128.0/18 - AZ C
+    10.30.192.0/18 - Spare
+
+To subdivide each availability zone into spaces for internal, external and to have spare room for growth; use a 19-bit mask for internal, and a 20-bit mask for external. The external space is smaller because only a few instances and load-balancers should be provisioned into it.
+
+    10.30.0.0/18 - AZ A
+
+      10.30.0.0/19 internal
+      10.30.32.0/20 external
+      10.30.48.0/20 spare
+
+    10.30.64.0/18 - AZ B
+
+      10.30.64.0/19 internal
+      10.30.96.0/20 external
+      10.30.112.0/20 spare
+
+    10.30.128.0/18 - AZ C
+
+      10.30.128.0/19 internal
+      10.30.160.0/20 external
+      10.30.176.0/20 spare
+
+The VPC itself will contain a single network gateway to route traffic in and out of the different subnets. The Stackater terraform will automatically create separate [NAT Gateways][nat-gateway] in each of the different subnets.
+
+Traffic from each internal subnet to the outside world will run through the associated NAT gateway.
+
+For further reading, check out these sources:
+
+- [Recommended Address Space](http://serverfault.com/questions/630022/what-is-the-recommended-cidr-when-creating-vpc-on-aws)
+- [Practical VPC Design](https://medium.com/aws-activate-startup-blog/practical-vpc-design-8412e1a18dcc)
+- [nat-gateway](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/vpc-nat-gateway.html)
 
 ## Developing a module
 
@@ -152,3 +203,4 @@ The version is defined using Git tags.  Use GitHub to create a release, which wi
 2. https://github.com/gruntwork-io/module-vpc-public
 3. https://github.com/hashicorp/best-practices/tree/master/terraform/modules/aws/network
 4. https://github.com/hashicorp/atlas-examples/tree/master/infrastructures
+5. 
