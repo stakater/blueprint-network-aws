@@ -6,7 +6,7 @@ resource "aws_route_table" "private" {
 		cidr_block = "0.0.0.0/0"
 		nat_gateway_id = "${element(split(",", var.nat_gateway_ids), count.index)}"
 	}
-	tags      { Name = "${var.name}.${element(split(",", var.azs), count.index)}" }
+	tags      { Name = "${var.name}-${var.azs[count.index]}" }
   lifecycle { create_before_destroy = true }
 }
 

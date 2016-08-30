@@ -10,7 +10,7 @@ resource "aws_route_table" "public" {
         gateway_id = "${aws_internet_gateway.public.id}"
     }
     tags {
-      Name = "${var.name}-${var.azs[count.index]}"
+      Name = "${var.name}-rt"
     }
 }
 
