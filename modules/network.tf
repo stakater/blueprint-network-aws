@@ -77,8 +77,8 @@ module "network_acl" {
 
   name   = "${var.name}-acl"
   vpc_id = "${module.vpc.vpc_id}"
-  public_subnets  = "${var.public_subnets}"
-  private_app_subnets  = "${var.private_app_subnets}"
+  public_subnets_ids  = "${module.public_subnet.subnet_ids}"
+  private_app_subnets_ids  = "${module.private_app_subnet.subnet_ids}"
 }
 
 ######################
