@@ -72,29 +72,13 @@ module "private_persistence_subnet" {
   azs    = "${var.azs}"
 }
 
-resource "aws_network_acl" "acl" {
-  vpc_id     = "${module.vpc.vpc_id}"
-  subnet_ids = ["${concat(split(",", module.public_subnet.subnet_ids), split(",", module.private_app_subnet.subnet_ids))}"]
+module "network_acl" {
+  source = "./network-acl"
 
-  ingress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
-
-  egress {
-    protocol   = "-1"
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
-
-  tags { Name = "${var.name}-all" }
+  name   = "${var.name}-acl"
+  vpc_id = "${module.vpc.vpc_id}"
+  public_subnets  = "${var.public_subnets}"
+  private_app_subnets  = "${var.private_app_subnets}"
 }
 
 ######################
