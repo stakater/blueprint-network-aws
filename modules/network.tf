@@ -93,5 +93,8 @@ output "public_subnet_ids"  { value = "${module.public_subnet.subnet_ids}" }
 output "private_app_subnet_ids" { value = "${module.private_app_subnet.subnet_ids}" }
 output "private_persistence_subnet_ids" { value = "${module.private_persistence_subnet.subnet_ids}" }
 
+# Route Tables
+output "private_app_route_table_ids" { value = "${module.private_app_subnet.route_table_ids}" }
+
 # NAT
 output "nat_gateway_ids" { value = "${module.nat.nat_gateway_ids}" }
