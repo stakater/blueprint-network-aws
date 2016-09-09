@@ -1,6 +1,6 @@
 variable "name" { }
 variable "target_vpc_id" { }
-variable "rood_vpc_id" { }
+variable "root_vpc_id" { }
 
 variable "target_owner_id" {
   description = "AWS account ID of the account through which the target vpc was created"
