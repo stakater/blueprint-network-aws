@@ -8,7 +8,7 @@ variable "target_owner_id" {
 
 variable "root_route_table_ids" {
   description = "List of Route Table IDs of the root vpc"
-  default = []
+  default = [ "test-23145" ]
 }
 
 variable "target_vpc_cidr" {
