@@ -7,7 +7,8 @@ variable "target_owner_id" {
 }
 
 variable "root_route_table_ids" {
-  description = "Comma-separated list of Route Table IDs of the root vpc"
+  description = "List of Route Table IDs of the root vpc"
+  default = []
 }
 
 variable "target_vpc_cidr" {
