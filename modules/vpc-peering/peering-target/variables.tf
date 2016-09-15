@@ -2,6 +2,10 @@ variable "target_route_table_ids" {
   description = "Comma-separated list of Route Table IDs of the target vpc"
 }
 
+variable "target_route_table_ids_count" {
+  description = "Count for target_route_table_ids list (https://github.com/hashicorp/terraform/issues/3888)"
+}
+
 variable "root_vpc_cidr" {
   description = "VPC CIDR of the root VPC"
 }
