@@ -8,7 +8,6 @@ variable "target_owner_id" {
 
 variable "root_route_table_ids" {
   description = "List of Route Table IDs of the root vpc"
-  type = "list"
 }
 
 variable "root_route_table_ids_count" {

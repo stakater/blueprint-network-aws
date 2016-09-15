@@ -11,7 +11,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
 
 resource "aws_route" "root_to_target_private_route" {
   count = "${var.root_route_table_ids_count}" # https://github.com/hashicorp/terraform/issues/3888
-  route_table_id = "${element(var.root_route_table_ids, count.index)}"
+  route_table_id = "${element(split(",", var.root_route_table_ids), count.index)}"
   destination_cidr_block = "${var.target_vpc_cidr}"
   vpc_peering_connection_id = "${aws_vpc_peering_connection.vpc_peering_connection.id}"
 }
