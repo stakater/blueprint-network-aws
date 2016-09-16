@@ -5,7 +5,7 @@ resource "aws_vpc_peering_connection" "vpc_peering_connection" {
   auto_accept = "true"
 
   tags {
-    Name = "${var.name}-peering-connection"
+    Name = "${var.name}-px"
   }
 }
 

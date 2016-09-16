@@ -93,8 +93,8 @@ module "network_acl" {
 
 ##### VPC-PEERING
 module "vpc-peering" {
-    source = "./vpc-peering/peering-root"
-    name = "${var.name}"
+    source = "./vpc-peering"
+    name = "${var.name}-vpc-peering"
 
     root_vpc_id = "${module.vpc.vpc_id}"
     root_vpc_cidr = "${module.vpc.vpc_cidr}"
