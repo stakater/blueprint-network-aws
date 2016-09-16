@@ -5,7 +5,8 @@ variable "name"            { }
 variable "vpc_cidr"        { }
 
 variable "aws_account" {
-  description = "AWS Account Map"
+  type = "map"
+  description = "AWS Account Map consisting of account ID and default region"
 }
 
 variable "azs" {
