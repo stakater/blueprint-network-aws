@@ -1,5 +1,8 @@
 variable "name" { }
 variable "root_vpc_id" { }
+variable "root_vpc_cidr" {
+  description = "VPC CIDR of the root VPC"
+}
 
 variable "root_route_table_ids" {
   description = "List of Route Table IDs of the root vpc"

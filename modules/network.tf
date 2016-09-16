@@ -96,6 +96,7 @@ module "vpc-peering" {
     name = "${var.name}"
 
     root_vpc_id = "${module.vpc.vpc_id}"
+    root_vpc_cidr = "${module.vpc.vpc_cidr}"
     root_route_table_ids="${module.private_app_subnet.route_table_ids}"
     # workaround: using number of availability_zones for the number of routes to be added in the route table
     # https://github.com/hashicorp/terraform/issues/3888
