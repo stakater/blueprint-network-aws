@@ -4,11 +4,6 @@
 variable "name"            { }
 variable "vpc_cidr"        { }
 
-variable "aws_account" {
-  type = "map"
-  description = "AWS Account Map consisting of account ID and default region"
-}
-
 variable "azs" {
   description = "A list of Availability zones in the region"
   default=[]
@@ -34,6 +29,10 @@ variable "private_persistence_subnets" {
 variable "peer_vpc_id" { default = " " }
 variable "peer_vpc_cidr" { default = "0.0.0.0/0" }
 variable "peer_private_app_route_table_ids" { default = " " }
+variable "peer_owner_id" {
+  description = "AWS Account ID of the owner of the peer VPC"
+  default = " "
+}
 
 ######################
 # MODULES
@@ -108,7 +107,7 @@ module "vpc-peering" {
     # https://github.com/hashicorp/terraform/issues/3888
     peer_route_table_ids_count = "${length(var.azs)}"
 
-    peer_owner_id = "${var.aws_account["id"]}"
+    peer_owner_id = "${var.peer_owner_id}"
     peer_vpc_id = "${var.peer_vpc_id}"
     peer_vpc_cidr = "${var.peer_vpc_cidr}"
 }
