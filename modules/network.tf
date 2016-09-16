@@ -24,6 +24,12 @@ variable "private_persistence_subnets" {
   default=[]
 }
 
+## VPC-Peering variables
+# Default values assigned inorder to mark them optional
+variable "peer_vpc_id" { default = " " }
+variable "peer_vpc_cidr" { default = "0.0.0.0/0" }
+variable "peer_private_route_table_ids" { default = " " }
+
 
 ######################
 # MODULES
@@ -79,6 +85,27 @@ module "network_acl" {
   vpc_id = "${module.vpc.vpc_id}"
   public_subnet_ids  = "${module.public_subnet.subnet_ids}"
   private_app_subnet_ids  = "${module.private_app_subnet.subnet_ids}"
+}
+
+##### VPC-PEERING
+module "vpc-peering" {
+    source = "./vpc-peering/peering-root"
+    name = "${var.name}"
+
+    root_vpc_id = "${module.vpc.vpc_id}"
+    root_route_table_ids="${module.private_app_subnet.route_table_ids}"
+    # workaround: using number of availability_zones for the number of routes to be added in the route table
+    # https://github.com/hashicorp/terraform/issues/3888
+    root_route_table_ids_count = "${length(var.availability_zones)}"
+
+    peer_route_table_ids = "${var.peer_private_app_route_table_ids}"
+    # workaround: using number of availability_zones for the number of routes to be added in the route table
+    # https://github.com/hashicorp/terraform/issues/3888
+    peer_route_table_ids_count = "${length(var.availability_zones)}"
+
+    peer_owner_id = "${var.aws_account["id"]}"
+    peer_vpc_id = "${var.peer_vpc_id}"
+    peer_vpc_cidr = "${var.peer_vpc_cidr}"
 }
 
 ######################
