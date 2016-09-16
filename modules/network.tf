@@ -4,6 +4,10 @@
 variable "name"            { }
 variable "vpc_cidr"        { }
 
+variable "aws_account" {
+  description = "AWS Account Map"
+}
+
 variable "azs" {
   description = "A list of Availability zones in the region"
   default=[]
@@ -28,7 +32,7 @@ variable "private_persistence_subnets" {
 # Default values assigned inorder to mark them optional
 variable "peer_vpc_id" { default = " " }
 variable "peer_vpc_cidr" { default = "0.0.0.0/0" }
-variable "peer_private_route_table_ids" { default = " " }
+variable "peer_private_app_route_table_ids" { default = " " }
 
 ######################
 # MODULES
