@@ -12,6 +12,7 @@ variable "root_route_table_ids" {
 
 variable "root_route_table_ids_count" {
   description = "count for root_route_table_ids list (https://github.com/hashicorp/terraform/issues/3888)"
+  default = "1"
 }
 
 variable "target_vpc_cidr" {
