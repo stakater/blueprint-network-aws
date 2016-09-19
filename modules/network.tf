@@ -117,7 +117,7 @@ module "vpc-peering" {
     peer_vpc_cidr = "${var.peer_vpc_cidr}"
 }
 
-module "bastion" {
+module "bastion-host" {
   source                      = "./bastion"
   instance_type               = "t2.micro"
   ami                         = "ami-d732f0b7" #Ubuntu 14.04
