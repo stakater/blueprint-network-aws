@@ -31,7 +31,7 @@ resource "aws_security_group" "bastion" {
 }
 
 data "template_file" "user_data" {
-  template = "${file("${path.module}/user-data/${var.user_data_file}")}"
+  template = "${file("${path.module}/user-data/user-data.sh")}"
 
   vars {
     s3_bucket_name              = "${var.s3_bucket_name}"
