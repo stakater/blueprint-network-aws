@@ -42,3 +42,4 @@ resource "aws_iam_role_policy" "s3_readonly_policy" {
     ]
 }
 EOF
+}
