@@ -133,7 +133,6 @@ module "bastion-host" {
   keypair                     = "${var.bastion_host_keypair}"
   ami                         = "ami-d732f0b7" #Ubuntu 14.04
   region                      = "${var.aws_region}"
-  iam_instance_profile        = "s3-readonly"
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
   s3_bucket_arn               = "${var.config_bucket_arn}"
   vpc_id                      = "${module.vpc.vpc_id}"

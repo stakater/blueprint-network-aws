@@ -14,9 +14,6 @@ variable "instance_type" {
   default = "t2.micro"
 }
 
-variable "iam_instance_profile" {
-}
-
 variable "s3_bucket_name" {
   default = "" # Default value is a must: https://github.com/hashicorp/terraform/issues/8146
 }

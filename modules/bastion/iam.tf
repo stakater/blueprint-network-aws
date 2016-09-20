@@ -1,5 +1,5 @@
-resource "aws_iam_instance_profile" "bastion" {
-  name  = "${var.name}-bastion"
+resource "aws_iam_instance_profile" "s3_readonly" {
+  name  = "${var.name}-s3-readonly"
   roles = ["${aws_iam_role.s3_readonly.name}"]
 }
 

@@ -52,7 +52,7 @@ resource "aws_launch_configuration" "bastion" {
   security_groups      = [
     "${compact(concat(list(aws_security_group.bastion.id), split(",", "${var.security_group_ids}")))}"
   ]
-  iam_instance_profile = "${var.iam_instance_profile}"
+  iam_instance_profile = "${aws_iam_instance_profile.s3_readonly.name}"
 
   lifecycle {
     create_before_destroy = true
