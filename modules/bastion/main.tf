@@ -44,7 +44,7 @@ data "template_file" "user_data" {
 }
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix          = "${var.name}-"
+  name_prefix          = "${var.name}"
   image_id             = "${var.ami}"
   instance_type        = "${var.instance_type}"
   key_name             = "${var.keypair}"
