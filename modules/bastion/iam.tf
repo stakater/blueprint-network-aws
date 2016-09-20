@@ -35,7 +35,10 @@ resource "aws_iam_role_policy" "s3_readonly_policy" {
                 "s3:List*",
                 "s3:Get*"
             ],
-            "Resource": "${var.s3_bucket_arn}"
+            "Resource": [
+              "${var.s3_bucket_arn}",
+              "${var.s3_bucket_arn}/*"
+            ]
         }
     ]
 }
