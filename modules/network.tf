@@ -3,6 +3,7 @@
 ######################
 variable "name"            { }
 variable "vpc_cidr"        { }
+variable "aws_region" { }
 
 variable "azs" {
   description = "A list of Availability zones in the region"
@@ -32,6 +33,19 @@ variable "peer_private_app_route_table_ids" { default = " " }
 variable "peer_owner_id" {
   description = "AWS Account ID of the owner of the peer VPC"
   default = " "
+}
+
+## Bastion Host variables
+# Default values assigned inorder to mark them optional
+variable "config_bucket_name" {
+  description = "Name of S3 Bucket which has config and keys to be accessed by the bastion host"
+}
+variable "config_bucket_arn" {
+  description = "ARN of S3 Bucket which has config and keys to be accessed by the bastion host"
+}
+variable "bastion_host_keypair" {
+  description = "Keypair name for the bastion-host instance"
+  default = "bastion-host"
 }
 
 ######################
@@ -110,6 +124,21 @@ module "vpc-peering" {
     peer_owner_id = "${var.peer_owner_id}"
     peer_vpc_id = "${var.peer_vpc_id}"
     peer_vpc_cidr = "${var.peer_vpc_cidr}"
+}
+
+module "bastion-host" {
+  name                        = "${var.name}-bastion-host"
+  source                      = "./bastion"
+  instance_type               = "t2.micro"
+  keypair                     = "${var.bastion_host_keypair}"
+  ami                         = "ami-d732f0b7" #Ubuntu 14.04
+  region                      = "${var.aws_region}"
+  s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
+  s3_bucket_arn               = "${var.config_bucket_arn}"
+  vpc_id                      = "${module.vpc.vpc_id}"
+  subnet_ids                  = "${module.public_subnet.subnet_ids}"
+  keys_update_frequency       = "5,20,35,50 * * * *"
+  additional_user_data_script = "date"
 }
 
 ######################
