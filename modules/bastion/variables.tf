@@ -3,7 +3,11 @@ variable "vpc_id" { }
 variable "ami" { }
 
 variable "name" {
-  default = "bastion"
+  default = "bastion-host"
+}
+
+variable "keypair" {
+  default = "bastion-host"
 }
 
 variable "instance_type" {

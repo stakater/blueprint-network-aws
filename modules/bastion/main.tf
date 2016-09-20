@@ -69,6 +69,7 @@ resource "aws_autoscaling_group" "bastion" {
   force_delete              = false
   wait_for_capacity_timeout = 0
   launch_configuration      = "${aws_launch_configuration.bastion.name}"
+  key_name                  = "${var.keypair}"
   enabled_metrics           = [
     "GroupMinSize",
     "GroupMaxSize",

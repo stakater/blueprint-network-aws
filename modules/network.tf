@@ -41,6 +41,10 @@ variable "config_bucket_name" {
   description = "Name of S3 Bucket which has config and keys to be accessed by the bastion host"
   default = ""
 }
+variable "bastion_host_keypair" {
+  description = "Keypair name for the bastion-host instance"
+  default = "bastion-host"
+}
 
 ######################
 # MODULES
@@ -121,8 +125,10 @@ module "vpc-peering" {
 }
 
 module "bastion-host" {
+  name                        = "bastion-host"
   source                      = "./bastion"
   instance_type               = "t2.micro"
+  keypair                     = "${var.bastion_host_keypair}"
   ami                         = "ami-d732f0b7" #Ubuntu 14.04
   region                      = "${var.aws_region}"
   iam_instance_profile        = "s3-readonly"
