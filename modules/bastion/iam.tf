@@ -1,5 +1,5 @@
-resource "aws_iam_instance_profile" "s3_readonly" {
-  name  = "${var.name}-s3-readonly"
+resource "aws_iam_instance_profile" "bastion" {
+  name  = "${var.name}-bastion"
   roles = ["${aws_iam_role.s3_readonly.name}"]
 }
 
@@ -11,7 +11,6 @@ resource "aws_iam_role" "s3_readonly" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Sid": "",
       "Effect": "Allow",
       "Principal": {
         "Service": "ec2.amazonaws.com"
@@ -31,7 +30,6 @@ resource "aws_iam_role_policy" "s3_readonly_policy" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "Stmt1425916919000",
             "Effect": "Allow",
             "Action": [
                 "s3:List*",
