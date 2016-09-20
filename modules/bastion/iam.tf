@@ -1,10 +1,10 @@
 resource "aws_iam_instance_profile" "s3_readonly" {
-  name  = "s3-readonly"
+  name  = "${var.name}-s3-readonly"
   roles = ["${aws_iam_role.s3_readonly.name}"]
 }
 
 resource "aws_iam_role" "s3_readonly" {
-  name               = "s3-readonly-role"
+  name               = "${var.name}-s3-readonly-role"
   path               = "/"
   assume_role_policy = <<EOF
 {
@@ -24,7 +24,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "s3_readonly_policy" {
-  name   = "s3-readonly-policy"
+  name   = "${var.name}-s3-readonly-policy"
   role   = "${aws_iam_role.s3_readonly.id}"
   policy = <<EOF
 {

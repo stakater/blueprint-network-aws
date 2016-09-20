@@ -127,7 +127,7 @@ module "vpc-peering" {
 }
 
 module "bastion-host" {
-  name                        = "bastion-host"
+  name                        = "${var.name}-bastion-host"
   source                      = "./bastion"
   instance_type               = "t2.micro"
   keypair                     = "${var.bastion_host_keypair}"
