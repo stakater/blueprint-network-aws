@@ -39,7 +39,9 @@ variable "peer_owner_id" {
 # Default values assigned inorder to mark them optional
 variable "config_bucket_name" {
   description = "Name of S3 Bucket which has config and keys to be accessed by the bastion host"
-  default = ""
+}
+variable "config_bucket_arn" {
+  description = "ARN of S3 Bucket which has config and keys to be accessed by the bastion host"
 }
 variable "bastion_host_keypair" {
   description = "Keypair name for the bastion-host instance"
@@ -133,6 +135,7 @@ module "bastion-host" {
   region                      = "${var.aws_region}"
   iam_instance_profile        = "s3-readonly"
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
+  s3_bucket_arn               = "${var.config_bucket_arn}"
   vpc_id                      = "${module.vpc.vpc_id}"
   subnet_ids                  = "${module.public_subnet.subnet_ids}"
   keys_update_frequency       = "5,20,35,50 * * * *"
