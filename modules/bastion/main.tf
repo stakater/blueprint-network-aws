@@ -47,6 +47,7 @@ resource "aws_launch_configuration" "bastion" {
   name_prefix          = "${var.name}-"
   image_id             = "${var.ami}"
   instance_type        = "${var.instance_type}"
+  key_name             = "${var.keypair}"
   user_data            = "${data.template_file.user_data.rendered}"
   security_groups      = [
     "${compact(concat(list(aws_security_group.bastion.id), split(",", "${var.security_group_ids}")))}"
@@ -69,7 +70,6 @@ resource "aws_autoscaling_group" "bastion" {
   force_delete              = false
   wait_for_capacity_timeout = 0
   launch_configuration      = "${aws_launch_configuration.bastion.name}"
-  key_name                  = "${var.keypair}"
   enabled_metrics           = [
     "GroupMinSize",
     "GroupMaxSize",
