@@ -35,8 +35,11 @@ variable "peer_owner_id" {
   default = " "
 }
 
-variable "keys_bucket_name" {
-  description = "Name of S3 Bucket which has all keys to be accessed by the bastion host"
+## Bastion Host variables
+# Default values assigned inorder to mark them optional
+variable "config_bucket_name" {
+  description = "Name of S3 Bucket which has config and keys to be accessed by the bastion host"
+  default = ""
 }
 
 ######################
@@ -123,7 +126,7 @@ module "bastion-host" {
   ami                         = "ami-d732f0b7" #Ubuntu 14.04
   region                      = "${var.aws_region}"
   iam_instance_profile        = "s3-readonly"
-  s3_bucket_name              = "${var.keys_bucket_name}"
+  s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
   vpc_id                      = "${module.vpc.vpc_id}"
   subnet_ids                  = "${module.public_subnet.subnet_ids}"
   keys_update_frequency       = "5,20,35,50 * * * *"
