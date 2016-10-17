@@ -131,7 +131,7 @@ module "bastion-host" {
   source                      = "./bastion"
   instance_type               = "t2.micro"
   keypair                     = "${var.bastion_host_keypair}"
-  ami                         = "ami-d732f0b7" #Ubuntu 14.04
+  ami                         = "ami-bfdaa2be" #Ubuntu 14.04
   region                      = "${var.aws_region}"
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
   s3_bucket_arn               = "${var.config_bucket_arn}"
