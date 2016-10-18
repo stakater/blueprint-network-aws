@@ -47,6 +47,10 @@ variable "bastion_host_keypair" {
   description = "Keypair name for the bastion-host instance"
   default = "bastion-host"
 }
+variable "bastion_host_ami_id" {
+  description = "AMI ID from which the bastian host instance will be created."
+  default = ""
+}
 
 ######################
 # MODULES
@@ -131,7 +135,7 @@ module "bastion-host" {
   source                      = "./bastion"
   instance_type               = "t2.micro"
   keypair                     = "${var.bastion_host_keypair}"
-  ami                         = "ami-bfdaa2be" #Ubuntu 14.04
+  ami                         = "${var.bastion_host_ami_id}"
   region                      = "${var.aws_region}"
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
   s3_bucket_arn               = "${var.config_bucket_arn}"
