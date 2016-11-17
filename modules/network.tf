@@ -133,7 +133,7 @@ module "vpc-peering" {
 module "bastion-host" {
   name                        = "${var.name}-bastion-host"
   source                      = "./bastion"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.nano"
   keypair                     = "${var.bastion_host_keypair}"
   ami                         = "${var.bastion_host_ami_id}"
   region                      = "${var.aws_region}"

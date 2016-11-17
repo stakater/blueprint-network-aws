@@ -11,7 +11,7 @@ variable "keypair" {
 }
 
 variable "instance_type" {
-  default = "t2.micro"
+  default = "t2.nano"
 }
 
 variable "s3_bucket_name" {
