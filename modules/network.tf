@@ -163,3 +163,4 @@ output "public_route_table_ids" { value =  "${module.public_subnet.route_table_i
 
 # NAT
 output "nat_gateway_ids" { value = "${module.nat.nat_gateway_ids}" }
+output "nat_public_ip" {value = "${module.nat.public_ip}"}
