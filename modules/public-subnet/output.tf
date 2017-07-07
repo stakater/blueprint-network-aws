@@ -3,5 +3,5 @@ output "subnet_ids" {
 }
 
 output "route_table_ids" {
-	value = "${join(",", aws_route_table.public.*.id)}"
+  value = "${join(",", aws_route_table.public.*.id)}"
 }

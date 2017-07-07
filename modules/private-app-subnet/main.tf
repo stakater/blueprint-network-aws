@@ -1,13 +1,19 @@
 resource "aws_route_table" "private" {
-	vpc_id = "${var.vpc_id}"
-	count  = "${length(var.azs)}"
+  vpc_id = "${var.vpc_id}"
+  count  = "${length(var.azs)}"
 
-	route {
-		cidr_block = "0.0.0.0/0"
-		nat_gateway_id = "${element(split(",", var.nat_gateway_ids), count.index)}"
-	}
-	tags      { Name = "${var.name}-${var.azs[count.index]}" }
-  lifecycle { create_before_destroy = true }
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = "${element(split(",", var.nat_gateway_ids), count.index)}"
+  }
+
+  tags {
+    Name = "${var.name}-${var.azs[count.index]}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_subnet" "private" {
@@ -19,9 +25,10 @@ resource "aws_subnet" "private" {
   tags {
     Name = "${var.name}-${var.azs[count.index]}"
   }
-	lifecycle {
-		create_before_destroy = true
-	}
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table_association" "private" {

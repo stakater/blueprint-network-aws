@@ -1,6 +1,6 @@
-variable "region" { }
-variable "vpc_id" { }
-variable "ami" { }
+variable "region" {}
+variable "vpc_id" {}
+variable "ami" {}
 
 variable "name" {
   default = "bastion-host"

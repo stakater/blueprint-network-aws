@@ -8,20 +8,22 @@ resource "aws_security_group" "bastion" {
   }
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 22
-    to_port     = 22
+    protocol  = "tcp"
+    from_port = 22
+    to_port   = 22
+
     cidr_blocks = [
-      "0.0.0.0/0"
+      "0.0.0.0/0",
     ]
   }
 
   egress {
-    protocol    = -1
-    from_port   = 0
-    to_port     = 0
+    protocol  = -1
+    from_port = 0
+    to_port   = 0
+
     cidr_blocks = [
-      "0.0.0.0/0"
+      "0.0.0.0/0",
     ]
   }
 
@@ -44,14 +46,16 @@ data "template_file" "user_data" {
 }
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix          = "${var.name}"
-  image_id             = "${var.ami}"
-  instance_type        = "${var.instance_type}"
-  key_name             = "${var.keypair}"
-  user_data            = "${data.template_file.user_data.rendered}"
-  security_groups      = [
-    "${compact(concat(list(aws_security_group.bastion.id), split(",", "${var.security_group_ids}")))}"
+  name_prefix   = "${var.name}"
+  image_id      = "${var.ami}"
+  instance_type = "${var.instance_type}"
+  key_name      = "${var.keypair}"
+  user_data     = "${data.template_file.user_data.rendered}"
+
+  security_groups = [
+    "${compact(concat(list(aws_security_group.bastion.id), split(",", "${var.security_group_ids}")))}",
   ]
+
   iam_instance_profile = "${aws_iam_instance_profile.s3_readonly.name}"
 
   lifecycle {
@@ -61,7 +65,7 @@ resource "aws_launch_configuration" "bastion" {
 
 resource "aws_autoscaling_group" "bastion" {
   name                      = "${var.name}"
-  vpc_zone_identifier       = [ "${split(",", var.subnet_ids)}" ]
+  vpc_zone_identifier       = ["${split(",", var.subnet_ids)}"]
   desired_capacity          = "1"
   min_size                  = "1"
   max_size                  = "1"
@@ -70,7 +74,8 @@ resource "aws_autoscaling_group" "bastion" {
   force_delete              = false
   wait_for_capacity_timeout = 0
   launch_configuration      = "${aws_launch_configuration.bastion.name}"
-  enabled_metrics           = [
+
+  enabled_metrics = [
     "GroupMinSize",
     "GroupMaxSize",
     "GroupDesiredCapacity",
@@ -78,7 +83,7 @@ resource "aws_autoscaling_group" "bastion" {
     "GroupPendingInstances",
     "GroupStandbyInstances",
     "GroupTerminatingInstances",
-    "GroupTotalInstances"
+    "GroupTotalInstances",
   ]
 
   tag {

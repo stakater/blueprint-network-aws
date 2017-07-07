@@ -1,2 +1,5 @@
-variable "name" { default = "vpc" }
-variable "vpc_cidr" { }
+variable "name" {
+  default = "vpc"
+}
+
+variable "vpc_cidr" {}

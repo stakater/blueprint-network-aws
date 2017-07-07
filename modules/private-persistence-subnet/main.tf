@@ -1,9 +1,9 @@
 resource "aws_route_table" "persistence" {
-    vpc_id = "${var.vpc_id}"
+  vpc_id = "${var.vpc_id}"
 
-    tags {
-      Name = "${var.name}-RT"
-    }
+  tags {
+    Name = "${var.name}-RT"
+  }
 }
 
 resource "aws_subnet" "persistence" {

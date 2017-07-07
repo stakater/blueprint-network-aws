@@ -20,5 +20,7 @@ resource "aws_network_acl" "acl" {
     to_port    = 0
   }
 
-  tags { Name = "${var.name}" }
+  tags {
+    Name = "${var.name}"
+  }
 }

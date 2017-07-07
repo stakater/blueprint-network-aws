@@ -1,8 +1,11 @@
 resource "aws_eip" "nat" {
-  vpc   = true
+  vpc = true
+
   #count = "${length(var.azs)}" # Comment out count to only have 1 NAT
 
-  lifecycle { create_before_destroy = true }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_nat_gateway" "nat" {
@@ -11,5 +14,7 @@ resource "aws_nat_gateway" "nat" {
 
   #count = "${length(split(",", var.azs))}" # Comment out count to only have 1 NAT
 
-  lifecycle { create_before_destroy = true }
+  lifecycle {
+    create_before_destroy = true
+  }
 }

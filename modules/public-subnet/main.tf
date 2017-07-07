@@ -1,17 +1,22 @@
 resource "aws_internet_gateway" "public" {
-    vpc_id = "${var.vpc_id}"
-    tags { Name = "${var.name}-IG" }
+  vpc_id = "${var.vpc_id}"
+
+  tags {
+    Name = "${var.name}-IG"
+  }
 }
 
 resource "aws_route_table" "public" {
-    vpc_id = "${var.vpc_id}"
-    route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = "${aws_internet_gateway.public.id}"
-    }
-    tags {
-      Name = "${var.name}-rt"
-    }
+  vpc_id = "${var.vpc_id}"
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.public.id}"
+  }
+
+  tags {
+    Name = "${var.name}-rt"
+  }
 }
 
 resource "aws_subnet" "public" {
