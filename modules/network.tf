@@ -125,7 +125,6 @@ module "network_acl" {
 module "vpc-peering" {
   source = "./vpc-peering"
   name   = "${var.name}-vpc-peering"
-  count  = "${length(var.peer_vpc_id) > 0 ? 1 : 0}"
 
   root_vpc_id          = "${module.vpc.vpc_id}"
   root_vpc_cidr        = "${module.vpc.vpc_cidr}"
