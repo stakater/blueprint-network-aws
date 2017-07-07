@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "s3_readonly" {
-  name  = "${var.name}-s3-readonly"
-  roles = ["${aws_iam_role.s3_readonly.name}"]
+  name = "${var.name}-s3-readonly"
+  role = "${aws_iam_role.s3_readonly.name}"
 }
 
 resource "aws_iam_role" "s3_readonly" {
