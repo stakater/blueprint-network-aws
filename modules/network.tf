@@ -29,7 +29,7 @@ variable "private_persistence_subnets" {
 ## VPC-Peering variables
 # Default values assigned inorder to mark them optional
 variable "peer_vpc_id" {
-  default = " "
+  default = ""
 }
 
 variable "peer_vpc_cidr" {
