@@ -199,3 +199,7 @@ output "public_route_table_ids" {
 output "nat_gateway_ids" {
   value = "${module.nat.nat_gateway_ids}"
 }
+
+output "nat_public_ip" {
+  value = "${module.nat.public_ip}"
+}
