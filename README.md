@@ -203,4 +203,8 @@ The version is defined using Git tags.  Use GitHub to create a release, which wi
 2. https://github.com/gruntwork-io/module-vpc-public
 3. https://github.com/hashicorp/best-practices/tree/master/terraform/modules/aws/network
 4. https://github.com/hashicorp/atlas-examples/tree/master/infrastructures
-5. 
+
+
+#### NOTE: 
+Any changes made to this repository should also be reflected in its respective clone for kubernetes (https://github.com/stakater/blueprint-network-k8s-aws). 
+Both repositories should contain same code with the difference of kubernetes specific tags on resources of the clone repositroy `blueprint-network-k8s-aws`. 
