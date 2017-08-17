@@ -26,6 +26,11 @@ variable "private_persistence_subnets" {
   default     = []
 }
 
+variable "spare_subnets" {
+  description = "A list of CIDR blocks for spare subnets inside the VPC."
+  default     = []
+}
+
 ## VPC-Peering variables
 # Default values assigned inorder to mark them optional
 variable "peer_vpc_id" {
@@ -110,6 +115,15 @@ module "private_persistence_subnet" {
   vpc_id                      = "${module.vpc.vpc_id}"
   private_persistence_subnets = "${var.private_persistence_subnets}"
   azs                         = "${var.azs}"
+}
+
+module "spare_subnet" {
+  source = "./spare-subnet"
+
+  name          = "${var.name}-spare"
+  vpc_id        = "${module.vpc.vpc_id}"
+  spare_subnets = "${var.spare_subnets}"
+  azs           = "${var.azs}"
 }
 
 module "network_acl" {
