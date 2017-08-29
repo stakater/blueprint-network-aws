@@ -51,6 +51,7 @@ resource "aws_launch_configuration" "bastion" {
   instance_type = "${var.instance_type}"
   key_name      = "${var.keypair}"
   user_data     = "${data.template_file.user_data.rendered}"
+  associate_public_ip_address = "${var.associate_public_ip_address}"
 
   security_groups = [
     "${compact(concat(list(aws_security_group.bastion.id), split(",", "${var.security_group_ids}")))}",

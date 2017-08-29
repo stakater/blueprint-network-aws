@@ -51,6 +51,11 @@ variable "subnet_ids" {
   description = "Comma separated list of subnet ids"
 }
 
+variable "associate_public_ip_address" {
+  description = "Associate a public ip address with an instance in a VPC."
+  default     = true
+}
+
 variable "eip" {
   default = ""
 }
