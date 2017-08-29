@@ -65,6 +65,12 @@ variable "bastion_host_keypair" {
   default     = "bastion-host"
 }
 
+variable "bastion_host_allow_ssh_cidrs" {
+  description = "List Cidrs from where ssh is to be allowed for bastion host. Default is anywhere"
+  type        = "list"
+  default     = ["0.0.0.0/0"]
+}
+
 variable "bastion_host_ami_id" {
   description = "AMI ID from which the bastian host instance will be created."
   default     = ""
@@ -164,6 +170,7 @@ module "bastion-host" {
   source                      = "./bastion"
   instance_type               = "t2.nano"
   keypair                     = "${var.bastion_host_keypair}"
+  allow_ssh_cidrs             = "${var.bastion_host_allow_ssh_cidrs}"
   ami                         = "${var.bastion_host_ami_id}"
   region                      = "${var.aws_region}"
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"

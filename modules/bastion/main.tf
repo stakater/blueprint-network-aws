@@ -12,9 +12,7 @@ resource "aws_security_group" "bastion" {
     from_port = 22
     to_port   = 22
 
-    cidr_blocks = [
-      "0.0.0.0/0",
-    ]
+    cidr_blocks = "${var.allow_ssh_cidrs}"
   }
 
   egress {
@@ -46,11 +44,11 @@ data "template_file" "user_data" {
 }
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix   = "${var.name}"
-  image_id      = "${var.ami}"
-  instance_type = "${var.instance_type}"
-  key_name      = "${var.keypair}"
-  user_data     = "${data.template_file.user_data.rendered}"
+  name_prefix                 = "${var.name}"
+  image_id                    = "${var.ami}"
+  instance_type               = "${var.instance_type}"
+  key_name                    = "${var.keypair}"
+  user_data                   = "${data.template_file.user_data.rendered}"
   associate_public_ip_address = "${var.associate_public_ip_address}"
 
   security_groups = [
