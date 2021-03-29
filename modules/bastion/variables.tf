@@ -58,7 +58,7 @@ variable "associate_public_ip_address" {
 
 variable "allow_ssh_cidrs" {
   description = "List Cidrs from where ssh is to be allowed for bastion host. Default is anywhere"
-  type        = "list"
+  type        = list
   default     = ["0.0.0.0/0"]
 }
 
