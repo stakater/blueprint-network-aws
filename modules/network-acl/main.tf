@@ -1,6 +1,6 @@
 resource "aws_network_acl" "acl" {
-  vpc_id     = "${var.vpc_id}"
-  subnet_ids = ["${concat(split(",", var.public_subnet_ids), split(",", var.private_app_subnet_ids))}"]
+  vpc_id     = var.vpc_id
+  subnet_ids = [concat(split(",", var.public_subnet_ids), split(",", var.private_app_subnet_ids))]
 
   ingress {
     protocol   = "-1"
@@ -21,6 +21,6 @@ resource "aws_network_acl" "acl" {
   }
 
   tags {
-    Name = "${var.name}"
+    Name = var.name
   }
 }
