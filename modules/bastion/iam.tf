@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "s3_readonly" {
   name = "${var.name}-s3-readonly"
-  role = "${aws_iam_role.s3_readonly.name}"
+  role = aws_iam_role.s3_readonly.name
 }
 
 resource "aws_iam_role" "s3_readonly" {
@@ -25,7 +25,7 @@ EOF
 
 resource "aws_iam_role_policy" "s3_readonly_policy" {
   name = "${var.name}-s3-readonly-policy"
-  role = "${aws_iam_role.s3_readonly.id}"
+  role = aws_iam_role.s3_readonly.id
 
   policy = <<EOF
 {
@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "s3_readonly_policy" {
                 "s3:Get*"
             ],
             "Resource": [
-              "${var.s3_bucket_arn}",
+              var.s3_bucket_arn,
               "${var.s3_bucket_arn}/*"
             ]
         }

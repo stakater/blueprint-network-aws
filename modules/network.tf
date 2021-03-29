@@ -83,62 +83,62 @@ module "vpc" {
   source = "./vpc"
 
   name     = "${var.name}-vpc"
-  vpc_cidr = "${var.vpc_cidr}"
+  vpc_cidr = var.vpc_cidr
 }
 
 module "public_subnet" {
   source = "./public-subnet"
 
   name           = "${var.name}-public"
-  vpc_id         = "${module.vpc.vpc_id}"
-  public_subnets = "${var.public_subnets}"
-  azs            = "${var.azs}"
+  vpc_id         = module.vpc.vpc_id
+  public_subnets = var.public_subnets
+  azs            = var.azs
 }
 
 module "nat" {
   source = "./nat"
 
   name              = "${var.name}-nat"
-  azs               = "${var.azs}"
-  public_subnet_ids = "${module.public_subnet.subnet_ids}"
+  azs               = var.azs
+  public_subnet_ids = module.public_subnet.subnet_ids
 }
 
 module "private_app_subnet" {
   source = "./private-app-subnet"
 
   name                = "${var.name}-private-app"
-  vpc_id              = "${module.vpc.vpc_id}"
-  private_app_subnets = "${var.private_app_subnets}"
-  azs                 = "${var.azs}"
+  vpc_id              = module.vpc.vpc_id
+  private_app_subnets = var.private_app_subnets
+  azs                 = var.azs
 
-  nat_gateway_ids = "${module.nat.nat_gateway_ids}"
+  nat_gateway_ids = module.nat.nat_gateway_ids
 }
 
 module "private_persistence_subnet" {
   source = "./private-persistence-subnet"
 
   name                        = "${var.name}-private-persistence"
-  vpc_id                      = "${module.vpc.vpc_id}"
-  private_persistence_subnets = "${var.private_persistence_subnets}"
-  azs                         = "${var.azs}"
+  vpc_id                      = module.vpc.vpc_id
+  private_persistence_subnets = var.private_persistence_subnets
+  azs                         = var.azs
 }
 
 module "spare_subnet" {
   source = "./spare-subnet"
 
   name          = "${var.name}-spare"
-  vpc_id        = "${module.vpc.vpc_id}"
-  spare_subnets = "${var.spare_subnets}"
-  azs           = "${var.azs}"
+  vpc_id        = module.vpc.vpc_id
+  spare_subnets = var.spare_subnets
+  azs           = var.azs
 }
 
 module "network_acl" {
   source = "./network-acl"
 
   name                   = "${var.name}-acl"
-  vpc_id                 = "${module.vpc.vpc_id}"
-  public_subnet_ids      = "${module.public_subnet.subnet_ids}"
-  private_app_subnet_ids = "${module.private_app_subnet.subnet_ids}"
+  vpc_id                 = module.vpc.vpc_id
+  public_subnet_ids      = module.public_subnet.subnet_ids
+  private_app_subnet_ids = module.private_app_subnet.subnet_ids
 }
 
 ##### VPC-PEERING
@@ -146,37 +146,37 @@ module "vpc-peering" {
   source = "./vpc-peering"
   name   = "${var.name}-vpc-peering"
 
-  root_vpc_id          = "${module.vpc.vpc_id}"
-  root_vpc_cidr        = "${module.vpc.vpc_cidr}"
-  root_route_table_ids = "${module.private_app_subnet.route_table_ids}"
+  root_vpc_id          = module.vpc.vpc_id
+  root_vpc_cidr        = module.vpc.vpc_cidr
+  root_route_table_ids = module.private_app_subnet.route_table_ids
 
   # workaround: using number of availability_zones for the number of routes to be added in the route table
   # https://github.com/hashicorp/terraform/issues/3888
-  root_route_table_ids_count = "${length(var.azs)}"
+  root_route_table_ids_count = length(var.azs)
 
-  peer_route_table_ids = "${var.peer_private_app_route_table_ids}"
+  peer_route_table_ids = var.peer_private_app_route_table_ids
 
   # workaround: using number of availability_zones for the number of routes to be added in the route table
   # https://github.com/hashicorp/terraform/issues/3888
-  peer_route_table_ids_count = "${length(var.azs)}"
+  peer_route_table_ids_count = length(var.azs)
 
-  peer_owner_id = "${var.peer_owner_id}"
-  peer_vpc_id   = "${var.peer_vpc_id}"
-  peer_vpc_cidr = "${var.peer_vpc_cidr}"
+  peer_owner_id = var.peer_owner_id
+  peer_vpc_id   = var.peer_vpc_id
+  peer_vpc_cidr = var.peer_vpc_cidr
 }
 
 module "bastion-host" {
   name                        = "${var.name}-bastion-host"
   source                      = "./bastion"
   instance_type               = "t2.nano"
-  keypair                     = "${var.bastion_host_keypair}"
-  allow_ssh_cidrs             = "${var.bastion_host_allow_ssh_cidrs}"
-  ami                         = "${var.bastion_host_ami_id}"
-  region                      = "${var.aws_region}"
+  keypair                     = var.bastion_host_keypair
+  allow_ssh_cidrs             = var.bastion_host_allow_ssh_cidrs
+  ami                         = var.bastion_host_ami_id
+  region                      = var.aws_region
   s3_bucket_uri               = "s3://${var.config_bucket_name}/keypairs"
-  s3_bucket_arn               = "${var.config_bucket_arn}"
-  vpc_id                      = "${module.vpc.vpc_id}"
-  subnet_ids                  = "${module.public_subnet.subnet_ids}"
+  s3_bucket_arn               = var.config_bucket_arn
+  vpc_id                      = module.vpc.vpc_id
+  subnet_ids                  = module.public_subnet.subnet_ids
   keys_update_frequency       = "5,20,35,50 * * * *"
   additional_user_data_script = "date"
 }
@@ -186,40 +186,40 @@ module "bastion-host" {
 ######################
 # VPC
 output "vpc_id" {
-  value = "${module.vpc.vpc_id}"
+  value = module.vpc.vpc_id
 }
 
 output "vpc_cidr" {
-  value = "${module.vpc.vpc_cidr}"
+  value = module.vpc.vpc_cidr
 }
 
 # Subnets
 output "public_subnet_ids" {
-  value = "${module.public_subnet.subnet_ids}"
+  value = module.public_subnet.subnet_ids
 }
 
 output "private_app_subnet_ids" {
-  value = "${module.private_app_subnet.subnet_ids}"
+  value = module.private_app_subnet.subnet_ids
 }
 
 output "private_persistence_subnet_ids" {
-  value = "${module.private_persistence_subnet.subnet_ids}"
+  value = module.private_persistence_subnet.subnet_ids
 }
 
 # Route Tables
 output "private_app_route_table_ids" {
-  value = "${module.private_app_subnet.route_table_ids}"
+  value = module.private_app_subnet.route_table_ids
 }
 
 output "public_route_table_ids" {
-  value = "${module.public_subnet.route_table_ids}"
+  value = module.public_subnet.route_table_ids
 }
 
 # NAT
 output "nat_gateway_ids" {
-  value = "${module.nat.nat_gateway_ids}"
+  value = module.nat.nat_gateway_ids
 }
 
 output "nat_public_ip" {
-  value = "${module.nat.public_ip}"
+  value = module.nat.public_ip
 }
